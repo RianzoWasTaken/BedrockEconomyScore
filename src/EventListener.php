@@ -43,9 +43,30 @@ final class EventListener implements Listener
         $this->updateTags($event->getPlayer());
     }
 
-    public function onTransaction(
-        AddTransactionEvent|SubtractTransactionEvent|SetTransactionEvent $event
-    ): void {
+    public function onAddTransaction(AddTransactionEvent $event): void
+    {
+        $player = $this->plugin->getServer()->getPlayerExact($event->username);
+
+        if ($player === null) {
+            return;
+        }
+
+        $this->updateTags($player);
+    }
+
+    public function onSubtractTransaction(SubtractTransactionEvent $event): void
+    {
+        $player = $this->plugin->getServer()->getPlayerExact($event->username);
+
+        if ($player === null) {
+            return;
+        }
+
+        $this->updateTags($player);
+    }
+
+    public function onSetTransaction(SetTransactionEvent $event): void
+    {
         $player = $this->plugin->getServer()->getPlayerExact($event->username);
 
         if ($player === null) {
