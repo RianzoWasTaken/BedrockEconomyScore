@@ -1,0 +1,17 @@
+{
+    "name": "cooldogedev/bedrockeconomyscore",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "cooldogedev\\BedrockEconomyScore\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Doge",
+            "email": "cooldogedev@gmail.com"
+        }
+    ],
+    "require": {}
+}

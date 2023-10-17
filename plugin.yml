@@ -1,0 +1,11 @@
+name: BedrockEconomyScore
+version: 0.0.1
+api: [ 5.0.0 ]
+author: cooldogedev
+main: cooldogedev\BedrockEconomyScore\BedrockEconomyScore
+src-namespace-prefix: cooldogedev\BedrockEconomyScore
+description: An integration layer for BedrockEconomy and ScoreHud
+website: "https://github.com/cooldogepm/BedrockEconomyScore"
+depend:
+  - BedrockEconomy
+  - ScoreHud
