@@ -6,10 +6,9 @@ namespace cooldogedev\BedrockEconomyScore;
 
 use cooldogedev\BedrockEconomy\BedrockEconomy;
 use cooldogedev\BedrockEconomy\database\cache\GlobalCache;
-use cooldogedev\BedrockEconomy\event\transaction\AddTransactionEvent;
-use cooldogedev\BedrockEconomy\event\transaction\SetTransactionEvent;
-use cooldogedev\BedrockEconomy\event\transaction\SubtractTransactionEvent;
-use cooldogedev\BedrockEconomy\event\transaction\TransferTransactionEvent;
+use cooldogedev\BedrockEconomy\database\transaction\TransferTransaction;
+use cooldogedev\BedrockEconomy\database\transaction\UpdateTransaction;
+use cooldogedev\BedrockEconomy\event\transaction\TransactionSuccessEvent;
 use Ifera\ScoreHud\event\PlayerTagsUpdateEvent;
 use Ifera\ScoreHud\event\TagsResolveEvent;
 use Ifera\ScoreHud\scoreboard\ScoreTag;
@@ -43,46 +42,28 @@ final class EventListener implements Listener
         $this->updateTags($event->getPlayer());
     }
 
-    public function onAddTransaction(AddTransactionEvent $event): void
+    public function onTransactionSuccess(TransactionSuccessEvent $event): void
     {
-        $player = $this->plugin->getServer()->getPlayerExact($event->username);
+        $transaction = $event->transaction;
 
-        if ($player === null) {
+        if ($transaction instanceof TransferTransaction) {
+            foreach ([$transaction->source, $transaction->target] as $party) {
+                $player = $this->plugin->getServer()->getPlayerExact($party["username"]);
+
+                if ($player === null) {
+                    continue;
+                }
+
+                $this->updateTags($player);
+            }
             return;
         }
 
-        $this->updateTags($player);
-    }
-
-    public function onSubtractTransaction(SubtractTransactionEvent $event): void
-    {
-        $player = $this->plugin->getServer()->getPlayerExact($event->username);
-
-        if ($player === null) {
-            return;
-        }
-
-        $this->updateTags($player);
-    }
-
-    public function onSetTransaction(SetTransactionEvent $event): void
-    {
-        $player = $this->plugin->getServer()->getPlayerExact($event->username);
-
-        if ($player === null) {
-            return;
-        }
-
-        $this->updateTags($player);
-    }
-
-    public function onTransfer(TransferTransactionEvent $event): void
-    {
-        foreach ([$event->source, $event->target] as $party) {
-            $player = $this->plugin->getServer()->getPlayerExact($party["username"]);
+        if ($transaction instanceof UpdateTransaction) {
+            $player = $this->plugin->getServer()->getPlayerExact($transaction->username);
 
             if ($player === null) {
-                continue;
+                return;
             }
 
             $this->updateTags($player);
