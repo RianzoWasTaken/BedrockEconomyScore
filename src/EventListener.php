@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace cooldogedev\BedrockEconomyScore;
 
 use cooldogedev\BedrockEconomy\BedrockEconomy;
-use cooldogedev\BedrockEconomy\database\cache\GlobalCache;
-use cooldogedev\BedrockEconomy\database\transaction\TransferTransaction;
-use cooldogedev\BedrockEconomy\database\transaction\UpdateTransaction;
-use cooldogedev\BedrockEconomy\event\transaction\TransactionSuccessEvent;
+use cooldogedev\BedrockEconomy\event\transaction\AddTransactionEvent;
+use cooldogedev\BedrockEconomy\event\transaction\SetTransactionEvent;
+use cooldogedev\BedrockEconomy\event\transaction\SubtractTransactionEvent;
+use cooldogedev\BedrockEconomy\event\transaction\TransferTransactionEvent;
 use Ifera\ScoreHud\event\PlayerTagsUpdateEvent;
 use Ifera\ScoreHud\event\TagsResolveEvent;
 use Ifera\ScoreHud\scoreboard\ScoreTag;
